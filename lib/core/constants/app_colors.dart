@@ -6,8 +6,8 @@ class AppColors {
   static const Color blackGrey = Color(0xFF434343);
   static const Color black900 = Color(0xFF414141);
   static const Color greenGradient = Color(0xFF2DB769);
-  static const Color blueGradient = Color(0xFF00A1E1);
-  static const Color brandGreen600 = Color(0xFF329B2A);
+  static const Color blueGradient = Color(0xFF3CBAEC);
+  static const Color brandGreen600 = Color(0xFF7EE4AA);
   static const Color gray700 = Color(0xFF606060);
   static const Color gray500 = Color(0xFF9D9D9D);
   static const Color gray600 = Color(0xFF747474);
@@ -34,4 +34,8 @@ class AppColors {
   static const Color red50 = Color(0xFFFEF3F2);
   static const Color warning100 = Color(0xFFFEF0C7);
   static const Color warning700 = Color(0xFFB54708);
+
+  //Choir logo
+  static const Color blueLogo = Color(0xFF233565);
+  static const Color greenLogo = Color(0xFF649684);
 }

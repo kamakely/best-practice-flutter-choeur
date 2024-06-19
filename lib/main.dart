@@ -21,6 +21,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         inputDecorationTheme: inputDecorationThemes,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+             padding: const EdgeInsets.symmetric(
+              horizontal: 28,
+              vertical: 16,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            backgroundColor: AppColors.brandBlue900,
+            foregroundColor: Colors.white
+          )
+        ),
         buttonTheme: ButtonThemeData(
             padding: const EdgeInsets.symmetric(
               horizontal: 28,

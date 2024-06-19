@@ -8,29 +8,36 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage('assets/img/background.png'),
-        fit: BoxFit.cover,
-      )),
-      child: Scaffold(
-        body: Center(
+    return Scaffold(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromARGB(255, 98, 217, 247),
+            ])),
+        child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Gap(72.84),
+                Image.asset(
+                  'assets/images/logo-no-background.png',
+                  width: MediaQuery.of(context).size.width * .7,
+                ),
+                const Gap(20),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
-                  width: 480,
-                  
-                  child:  Card(
+                  width: MediaQuery.of(context).size.width * .95,
+                  child: Card(
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 40.0,
+                        vertical: 27.0,
                         horizontal: 20.0,
                       ),
                       child: Column(children: [
@@ -42,21 +49,12 @@ class LoginScreen extends StatelessWidget {
                             fontSize: 36,
                           ),
                         ),
-                        const Gap(16),
-                        const Text(
-                          'description',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.gray700,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                          ),
-                        ),
                         const Gap(27),
                         TextField(
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
+                          decoration: const InputDecoration(hintText: 'Email'),
                           obscureText: false,
                         ),
                         const Gap(27),
@@ -64,8 +62,17 @@ class LoginScreen extends StatelessWidget {
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
+                          decoration:
+                              const InputDecoration(hintText: 'Mot de passe'),
                           obscureText: true,
                         ),
+                        const Gap(27),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Connexion',
+                          ),
+                        )
                       ]),
                     ),
                   ),
@@ -74,8 +81,8 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ),
-        // bottomNavigationBar: const LoginFooter(),
       ),
+      // bottomNavigationBar: const LoginFooter(),
     );
   }
 }
