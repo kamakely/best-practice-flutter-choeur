@@ -1,12 +1,17 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'config/theme/app_theme.dart';
-import 'features/login/presentation/login.dart';
+import 'features/login/presentation/controllers/login_biding.dart';
+import 'features/login/presentation/pages/login.dart';
 
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -16,8 +21,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      initialBinding: LoginBinding(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         inputDecorationTheme: inputDecorationThemes,

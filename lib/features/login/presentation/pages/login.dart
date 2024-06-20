@@ -1,13 +1,18 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
+import 'package:chorale_fva/features/login/presentation/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
   static const route = '/login';
 
   @override
   Widget build(BuildContext context) {
+    
+    
+    
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -54,11 +59,13 @@ class LoginScreen extends StatelessWidget {
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
+                          controller: controller.loginController,
                           decoration: const InputDecoration(hintText: 'Email'),
                           obscureText: false,
                         ),
                         const Gap(27),
                         TextField(
+                          controller: controller.passwordController,
                           onTapOutside: (event) {
                             FocusManager.instance.primaryFocus?.unfocus();
                           },
@@ -68,7 +75,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const Gap(27),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            
+                          },
                           child: const Text(
                             'Connexion',
                           ),

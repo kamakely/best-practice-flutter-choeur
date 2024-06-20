@@ -1,4 +1,4 @@
-package com.example.chorale_fva
+package mg.moiseraidjy.chorale_fva
 
 import io.flutter.embedding.android.FlutterActivity
 
