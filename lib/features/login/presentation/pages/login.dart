@@ -1,6 +1,7 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
 import 'package:chorale_fva/features/login/presentation/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -10,9 +11,6 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    
-    
-    
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -21,8 +19,8 @@ class LoginScreen extends GetView<LoginController> {
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
                 colors: [
-              Color.fromARGB(255, 255, 255, 255),
-              Color.fromARGB(255, 98, 217, 247),
+              Color(0xFFFFFFFF),
+              Color(0xFF62D9F7),
             ])),
         child: Center(
           child: SingleChildScrollView(
@@ -34,54 +32,78 @@ class LoginScreen extends GetView<LoginController> {
                   'assets/images/logo-no-background.png',
                   width: MediaQuery.of(context).size.width * .7,
                 ),
-                const Gap(20),
+                Gap(20.h),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  height:  MediaQuery.of(context).size.height * .4,
+                  margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                   width: MediaQuery.of(context).size.width * .95,
                   child: Card(
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 27.0,
-                        horizontal: 20.0,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 27.0.h,
+                        horizontal: 20.0.w,
                       ),
-                      child: Column(children: [
-                        const Text(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                        Text(
                           "Login",
                           style: TextStyle(
                             color: AppColors.brandBlue900,
                             fontWeight: FontWeight.w500,
-                            fontSize: 36,
+                            fontSize: 36.sp,
                           ),
                         ),
-                        const Gap(27),
-                        TextField(
-                          onTapOutside: (event) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          controller: controller.loginController,
-                          decoration: const InputDecoration(hintText: 'Email'),
-                          obscureText: false,
+                        Obx(
+                          () => TextField(
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            controller: controller.loginController,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              prefixIcon: const Icon(Icons.person),
+                              errorText: controller.loginError.value,
+                            ),
+                            obscureText: false,
+                          ),
                         ),
-                        const Gap(27),
-                        TextField(
-                          controller: controller.passwordController,
-                          onTapOutside: (event) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                          },
-                          decoration:
-                              const InputDecoration(hintText: 'Mot de passe'),
-                          obscureText: true,
+                        Obx(
+                          () => TextField(
+                            controller: controller.passwordController,
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Mot de passe',
+                                prefixIcon: const Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.handleIsObscured();
+                                  },
+                                  icon: Icon(
+                                    controller.isObscured.value
+                                        ? Icons.visibility
+                                        : Icons.visibility_off_outlined,
+                                  ),
+                                ),
+                                errorText: controller.passwordError.value),
+                            obscureText: controller.isObscured.value,
+                          ),
                         ),
-                        const Gap(27),
                         ElevatedButton(
-                          onPressed: () {
-                            
+                          onPressed: () async {
+                            await controller.handleLogin();
                           },
-                          child: const Text(
+                          child: Text(
                             'Connexion',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Roboto',
+                                fontSize: 28.sp),
                           ),
-                        )
+                        ),
                       ]),
                     ),
                   ),

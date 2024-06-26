@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthService {
+class LoginService {
   Future<String?> registration({
     required String email,
     required String password,
@@ -33,12 +33,12 @@ class AuthService {
         email: email,
         password: password,
       );
-      return 'Success';
+      return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        return 'Wrong password provided for that user.';
+      } else if (e.code == 'invalid-credential') {
+        return 'Email ou mot de passe invalide !';
       } else {
         return e.message;
       }
