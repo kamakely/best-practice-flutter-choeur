@@ -42,6 +42,8 @@ dependencies:
   firebase_auth: ^5.1.0
   logger:
   flutter_screenutil: ^5.9.3
+  get_storage:
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:

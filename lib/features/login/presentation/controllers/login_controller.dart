@@ -2,8 +2,10 @@ import 'package:chorale_fva/features/home/presentation/pages/home.dart';
 import 'package:chorale_fva/framework/utils.dart';
 import 'package:chorale_fva/framework/utils/logger_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
+import '../../data/data_sources/local/auth_storage.dart';
 import '../../data/data_sources/remote/login_services.dart';
 
 class LoginController extends GetxController {
@@ -17,7 +19,31 @@ class LoginController extends GetxController {
   var loginError = Rxn<String>();
   var passwordError = Rxn<String>();
 
+  final authStorage = AuthStorage();
+
+  @override
+  void onInit() async {
+    if (authStorage.getIsAuthentificated() == true) {
+      navigateToHomeScreen();
+    }
+    FlutterNativeSplash.remove();
+    super.onInit();
+  }
+
   void handleIsObscured() => isObscured.value = !isObscured.value;
+
+  void navigateToHomeScreen() {
+    LoggerUtils.info('LoginController :: Go to the home page !!!');
+    gotoPage(Home());
+  }
+
+  void gotoPage(Widget page) {
+    Get.offAll(
+      () => page,
+      transition: Transition.fadeIn,
+      duration: const Duration(seconds: 1),
+    );
+  }
 
   String? _validateField(String fieldValue) {
     return fieldValue.isEmpty ? 'Veuillez remplir ce champ' : null;
@@ -39,7 +65,8 @@ class LoginController extends GetxController {
           password: passwordController.text,
         );
         if (res == "success") {
-          Get.offAll(() => const Home());
+          authStorage.setIsAuthentificated(true);
+          Get.offAll(() => Home());
         } else {
           Utils.showPopinError(res ?? 'Veuillez vérifier votre connexion');
         }

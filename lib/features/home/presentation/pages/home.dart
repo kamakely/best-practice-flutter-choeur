@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends GetView<HomeController> {
-  const Home({super.key});
+  Home({super.key});
+
+  final List<String> menu = [
+    'Membres',
+    'Présences',
+    'Voix',
+    'évenements',
+    'Responsabilités',
+    'Chansons',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +21,19 @@ class Home extends GetView<HomeController> {
           title: const Text('Azela'),
           backgroundColor: const Color(0xFF62D9F7),
         ),
-        body: const Center(
-          child: Text('Home'),
+        body: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+              itemCount: menu.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Center(child: Text(menu[index])),
+                );
+              }),
         ));
   }
 }
