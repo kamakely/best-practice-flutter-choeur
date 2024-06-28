@@ -50,11 +50,11 @@ class MyApp extends StatelessWidget {
             ),
             GetPage(
               name: '/home',
-              page: () => HomeScreen(),
+              page: () => const HomeScreen(),
             )
           ],
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
             inputDecorationTheme: inputDecorationThemes,
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(

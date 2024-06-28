@@ -7,6 +7,14 @@ import '../../../login/data/data_sources/local/auth_storage.dart';
 
 class HomeController extends GetxController {
   final authStorage = AuthStorage();
+  final List<String> menu = [
+    'Membres',
+    'Présences',
+    'Voix',
+    'évenements',
+    'Responsabilités',
+    'Chansons',
+  ];
 
   Future<void> logout() async {
     authStorage.setIsAuthentificated(false);
