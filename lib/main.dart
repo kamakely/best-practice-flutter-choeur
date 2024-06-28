@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'config/theme/app_theme.dart';
-import 'features/login/presentation/controllers/login_biding.dart';
-import 'features/login/presentation/pages/login.dart';
+import 'features/home/presentation/pages/home_screen.dart';
+import 'features/login/presentation/pages/login_screen.dart';
 
 bool shouldUseFirebaseEmulator = false;
 
@@ -38,12 +38,21 @@ class MyApp extends StatelessWidget {
       designSize: const Size(720, 1600),
       minTextAdapt: true,
       splitScreenMode: true,
-      // Use builder only if you need to use library outside ScreenUtilInit context
       builder: (_, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          initialBinding: LoginBinding(),
+          navigatorKey: Get.key,
+          initialRoute: '/login',
+          getPages: [
+            GetPage(
+              name: '/login',
+              page: () => const LoginScreen(),
+            ),
+            GetPage(
+              name: '/home',
+              page: () => HomeScreen(),
+            )
+          ],
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             inputDecorationTheme: inputDecorationThemes,
@@ -71,10 +80,10 @@ class MyApp extends StatelessWidget {
             ),
             useMaterial3: true,
           ),
-          home: const LoginScreen(),
+          home: child,
         );
       },
-      // child: const HomePage(title: 'First Method'),
+      child: const LoginScreen(),
     );
   }
 }

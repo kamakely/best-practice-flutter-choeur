@@ -1,10 +1,11 @@
-import 'package:chorale_fva/features/home/presentation/pages/home.dart';
+import 'package:chorale_fva/features/home/presentation/pages/home_screen.dart';
 import 'package:chorale_fva/framework/utils.dart';
 import 'package:chorale_fva/framework/utils/logger_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/constants/constants.dart';
 import '../../data/data_sources/local/auth_storage.dart';
 import '../../data/data_sources/remote/login_services.dart';
 
@@ -34,14 +35,14 @@ class LoginController extends GetxController {
 
   void navigateToHomeScreen() {
     LoggerUtils.info('LoginController :: Go to the home page !!!');
-    gotoPage(Home());
+    gotoPage(HomeScreen());
   }
 
   void gotoPage(Widget page) {
     Get.offAll(
       () => page,
       transition: Transition.fadeIn,
-      duration: const Duration(seconds: 1),
+      duration: Constants.animationDuration,
     );
   }
 
@@ -64,9 +65,10 @@ class LoginController extends GetxController {
           email: loginController.text,
           password: passwordController.text,
         );
-        if (res == "success") {
+        if (res == 'success') {
           authStorage.setIsAuthentificated(true);
-          Get.offAll(() => Home());
+          LoggerUtils.info('Is authentificated: ${authStorage.getIsAuthentificated()}');
+          Get.offAll(() => HomeScreen());
         } else {
           Utils.showPopinError(res ?? 'Veuillez vérifier votre connexion');
         }
