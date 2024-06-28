@@ -36,7 +36,7 @@ class LoginController extends GetxController {
 
   void navigateToHomeScreen() {
     LoggerUtils.info('LoginController :: Go to the home page !!!');
-    gotoPage(HomeScreen());
+    gotoPage(const HomeScreen());
   }
 
   void gotoPage(Widget page) {
@@ -71,7 +71,7 @@ class LoginController extends GetxController {
           authStorage.setIsAuthentificated(true);
           LoggerUtils.info(
               'Is authentificated: ${authStorage.getIsAuthentificated()}');
-          Get.offAll(() => HomeScreen());
+          Get.offAll(() => const HomeScreen());
         } else {
           Utils.showPopinError(res ?? 'Veuillez vérifier votre connexion');
         }

@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
             ),
             GetPage(
               name: '/home',
-              page: () => HomeScreen(),
+              page: () => const HomeScreen(),
             )
           ],
           theme: ThemeData(
