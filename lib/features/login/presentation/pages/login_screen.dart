@@ -5,12 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../controllers/login_binding.dart';
+
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
   static const route = '/login';
 
   @override
   Widget build(BuildContext context) {
+    LoginBinding().dependencies();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -48,7 +51,7 @@ class LoginScreen extends GetView<LoginController> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                         Text(
-                          "Login",
+                          'Login',
                           style: TextStyle(
                             color: AppColors.brandBlue900,
                             fontWeight: FontWeight.w500,
