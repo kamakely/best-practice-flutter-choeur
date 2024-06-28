@@ -11,6 +11,7 @@ import '../../data/data_sources/remote/login_services.dart';
 
 class LoginController extends GetxController {
   var isObscured = true.obs;
+  var isLoading = false.obs;
 
   // The login and password text field controller
   final loginController = TextEditingController();
@@ -51,6 +52,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> handleLogin() async {
+    isLoading.value = true;
     final loginErrorText = _validateField(loginController.text);
     final passwordErrorText = _validateField(passwordController.text);
 
@@ -67,7 +69,8 @@ class LoginController extends GetxController {
         );
         if (res == 'success') {
           authStorage.setIsAuthentificated(true);
-          LoggerUtils.info('Is authentificated: ${authStorage.getIsAuthentificated()}');
+          LoggerUtils.info(
+              'Is authentificated: ${authStorage.getIsAuthentificated()}');
           Get.offAll(() => HomeScreen());
         } else {
           Utils.showPopinError(res ?? 'Veuillez vérifier votre connexion');
@@ -79,5 +82,6 @@ class LoginController extends GetxController {
         // Handle login error appropriately, e.g., show a message to the user
       }
     }
+    isLoading.value = false;
   }
 }

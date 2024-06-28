@@ -37,8 +37,9 @@ class LoginScreen extends GetView<LoginController> {
                 ),
                 Gap(20.h),
                 Container(
-                  height:  MediaQuery.of(context).size.height * .4,
-                  margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                  height: MediaQuery.of(context).size.height * .4,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                   width: MediaQuery.of(context).size.width * .95,
                   child: Card(
                     color: Colors.white,
@@ -48,66 +49,83 @@ class LoginScreen extends GetView<LoginController> {
                         horizontal: 20.0.w,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                        Text(
-                          'Login',
-                          style: TextStyle(
-                            color: AppColors.brandBlue900,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 36.sp,
-                          ),
-                        ),
-                        Obx(
-                          () => TextField(
-                            onTapOutside: (event) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            controller: controller.loginController,
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              prefixIcon: const Icon(Icons.person),
-                              errorText: controller.loginError.value,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'Login',
+                              style: TextStyle(
+                                color: AppColors.brandBlue900,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 36.sp,
+                              ),
                             ),
-                            obscureText: false,
-                          ),
-                        ),
-                        Obx(
-                          () => TextField(
-                            controller: controller.passwordController,
-                            onTapOutside: (event) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            decoration: InputDecoration(
-                                hintText: 'Mot de passe',
-                                prefixIcon: const Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    controller.handleIsObscured();
-                                  },
-                                  icon: Icon(
-                                    controller.isObscured.value
-                                        ? Icons.visibility
-                                        : Icons.visibility_off_outlined,
-                                  ),
+                            Obx(
+                              () => TextField(
+                                onTapOutside: (event) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
+                                controller: controller.loginController,
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  prefixIcon: const Icon(Icons.person),
+                                  errorText: controller.loginError.value,
                                 ),
-                                errorText: controller.passwordError.value),
-                            obscureText: controller.isObscured.value,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await controller.handleLogin();
-                          },
-                          child: Text(
-                            'Connexion',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Roboto',
-                                fontSize: 28.sp),
-                          ),
-                        ),
-                      ]),
+                                obscureText: false,
+                              ),
+                            ),
+                            Obx(
+                              () => TextField(
+                                controller: controller.passwordController,
+                                onTapOutside: (event) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
+                                decoration: InputDecoration(
+                                    hintText: 'Mot de passe',
+                                    prefixIcon: const Icon(Icons.lock),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        controller.handleIsObscured();
+                                      },
+                                      icon: Icon(
+                                        controller.isObscured.value
+                                            ? Icons.visibility
+                                            : Icons.visibility_off_outlined,
+                                      ),
+                                    ),
+                                    errorText: controller.passwordError.value),
+                                obscureText: controller.isObscured.value,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await controller.handleLogin();
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Connexion',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Roboto',
+                                        fontSize: 28.sp),
+                                  ),
+                                  if (controller.isLoading.value) Gap(20.w),
+                                  if (controller.isLoading.value)
+                                    SizedBox(
+                                        width: 20.h,
+                                        height: 20.h,
+                                        child:
+                                            CircularProgressIndicator.adaptive(
+                                          strokeWidth: 1.h,
+                                          valueColor:
+                                              const AlwaysStoppedAnimation<
+                                                  Color>(Colors.white),
+                                        ))
+                                ],
+                              ),
+                            ),
+                          ]),
                     ),
                   ),
                 )
