@@ -4,18 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  HomeScreen({super.key});
-
-  final List<String> menu = [
-    'Membres',
-    'Présences',
-    'Voix',
-    'évenements',
-    'Responsabilités',
-    'Chansons',
-  ];
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +31,31 @@ class HomeScreen extends GetView<HomeController> {
         body: MediaQuery.removePadding(
           context: context,
           removeTop: true,
-          child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-              ),
-              itemCount: menu.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Center(child: Text(menu[index])),
-                );
-              }),
+          child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10.h,
+                  crossAxisSpacing: 10.w,
+                ),
+                itemCount: controller.menu.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    child: Card(
+                      child: Center(
+                          child: Text(
+                        controller.menu[index],
+                        style: GoogleFonts.roboto(
+                            fontSize: 24.sp, fontWeight: FontWeight.w500),
+                      )),
+                    ),
+                  );
+                }),
+          ),
         ));
   }
 }
