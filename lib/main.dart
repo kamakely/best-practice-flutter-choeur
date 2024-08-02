@@ -8,18 +8,14 @@ import 'package:get/get.dart';
 
 import 'config/theme/app_theme.dart';
 import 'features/home/presentation/pages/home_screen.dart';
-import 'features/login/presentation/pages/login_screen.dart';
 
 bool shouldUseFirebaseEmulator = false;
-
-late final FirebaseApp app;
-late final FirebaseAuth auth;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  app = await Firebase.initializeApp();
-  auth = FirebaseAuth.instanceFor(app: app);
+  FirebaseApp app = await Firebase.initializeApp();
+  final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
 
   if (shouldUseFirebaseEmulator) {
     await auth.useAuthEmulator('localhost', 9099);
@@ -42,12 +38,12 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           navigatorKey: Get.key,
-          initialRoute: '/login',
+          initialRoute: '/',
           getPages: [
-            GetPage(
-              name: '/login',
-              page: () => const LoginScreen(),
-            ),
+            // GetPage(
+            //   name: '/login',
+            //   page: () => const LoginScreen(),
+            // ),
             GetPage(
               name: '/home',
               page: () => const HomeScreen(),
@@ -83,7 +79,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const LoginScreen(),
+      child: const HomeScreen(),
     );
   }
 }

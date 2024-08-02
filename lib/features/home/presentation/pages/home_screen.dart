@@ -2,7 +2,6 @@ import 'package:chorale_fva/features/home/presentation/controllers/home_binding.
 import 'package:chorale_fva/features/home/presentation/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,17 +15,7 @@ class HomeScreen extends GetView<HomeController> {
         appBar: AppBar(
           title: const Text('Azela'),
           backgroundColor: const Color(0xFF62D9F7),
-          actions: [
-            IconButton(
-              onPressed: () async {
-                await controller.logout();
-              },
-              icon: const Icon(
-                Icons.logout_outlined,
-              ),
-            ),
-            Gap(10.w),
-          ],
+         
         ),
         body: MediaQuery.removePadding(
           context: context,
@@ -44,11 +33,12 @@ class HomeScreen extends GetView<HomeController> {
                 ),
                 itemCount: controller.menu.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    child: Card(
+                  return Card(
+                    child: InkWell(
+                      onTap: controller.menu[index].onTap,
                       child: Center(
                           child: Text(
-                        controller.menu[index],
+                        controller.menu[index].name,
                         style: GoogleFonts.roboto(
                             fontSize: 24.sp, fontWeight: FontWeight.w500),
                       )),
