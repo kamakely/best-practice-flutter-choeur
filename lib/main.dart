@@ -1,5 +1,4 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,13 +12,16 @@ bool shouldUseFirebaseEmulator = false;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  /// The line `import 'package:firebase_core/firebase_core.dart';` in the Dart code is importing the
+  /// `firebase_core` package in the Flutter project. This package is used for initializing Firebase
+  /// services in a Flutter application.
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  FirebaseApp app = await Firebase.initializeApp();
-  final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
+  await Firebase.initializeApp();
+  // final FirebaseAuth auth = FirebaseAuth.instanceFor(app: app);
 
-  if (shouldUseFirebaseEmulator) {
-    await auth.useAuthEmulator('localhost', 9099);
-  }
+  // if (shouldUseFirebaseEmulator) {
+  //   await auth.useAuthEmulator('localhost', 9099);
+  // }
 
   runApp(const MyApp());
 }
