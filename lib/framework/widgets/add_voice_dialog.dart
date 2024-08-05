@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-class AddVoiceBottomsheet extends StatelessWidget {
-  const AddVoiceBottomsheet({
+class AddBottomsheet extends StatelessWidget {
+  const AddBottomsheet({
     super.key,
     required this.title,
     required this.controller,
     required this.buttonTitle,
-    this.onAddVoice,
+    this.onAdd,
   });
 
   final String title;
   final TextEditingController controller;
-  final Function()? onAddVoice;
+  final Function()? onAdd;
   final String buttonTitle;
 
   @override
@@ -37,7 +37,7 @@ class AddVoiceBottomsheet extends StatelessWidget {
           SizedBox(
             width: 400.w,
             child: ElevatedButton(
-              onPressed: onAddVoice,
+              onPressed: onAdd,
               child: Text(buttonTitle),
             ),
           ),

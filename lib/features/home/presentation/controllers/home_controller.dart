@@ -1,12 +1,12 @@
 import 'package:chorale_fva/features/event/presentation/pages/event_screen.dart';
 import 'package:chorale_fva/features/members/presentation/pages/members_screen.dart';
 import 'package:chorale_fva/features/presence/presentation/pages/presence_screen.dart';
-import 'package:chorale_fva/features/role/presentation/pages/role_screen.dart';
 import 'package:chorale_fva/features/songs/presentation/pages/songs_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 import '../../../login/data/data_sources/local/auth_storage.dart';
+import '../../../roles/presentation/pages/roles_screen.dart';
 import '../../../voices/presentation/pages/voices_screen.dart';
 import '../../data/models/menu.dart';
 
@@ -27,7 +27,7 @@ class HomeController extends GetxController {
       Get.to(() => const EventScreen());
     },),
     Menu(name:  'Responsabilités', onTap: () {
-      Get.to(() => const RoleScreen());
+      Get.to(() => const RolesScreen());
     },),
     Menu(name:  'Chansons', onTap: () {
       Get.to(() => const SongsScreen());

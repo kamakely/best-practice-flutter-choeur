@@ -1,20 +1,21 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
-import 'package:chorale_fva/features/voices/data/models/voice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../controllers/voices_binding.dart';
-import '../controllers/voices_controller.dart';
 import '../../../../framework/widgets/add_voice_dialog.dart';
+import '../../data/role.dart';
+import '../controllers/roles_controller.dart';
+import '../controllers/voices_binding.dart';
 
-class VoicesScreen extends GetView<VoicesController> {
-  const VoicesScreen({super.key});
+
+class RolesScreen extends GetView<RolesController> {
+  const RolesScreen({super.key});
 
   Widget _body() {
     return Obx(() {
-      bool isDataEmpty = controller.voicesFields.value == null ||
-          controller.voicesFields.value!.docs.isEmpty;
+      bool isDataEmpty = controller.rolesFields.value == null ||
+          controller.rolesFields.value!.docs.isEmpty;
 
       if (controller.isLoading.value) {
         return const Center(
@@ -34,9 +35,9 @@ class VoicesScreen extends GetView<VoicesController> {
           vertical: 40.h,
         ),
         child: ListView.builder(
-            itemCount: controller.voicesFields.value!.docs.length,
+            itemCount: controller.rolesFields.value!.docs.length,
             itemBuilder: (context, index) {
-              var doc = controller.voicesFields.value!.docs[index];
+              var doc = controller.rolesFields.value!.docs[index];
               return Card(
                   child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -56,22 +57,22 @@ class VoicesScreen extends GetView<VoicesController> {
                                 backgroundColor: AppColors.backgroundColor,
                                 isScrollControlled: true,
                                 builder: (_) {
-                                  controller.editVoiceController.text =
+                                  controller.editRoleController.text =
                                       (doc.data() as Map)['name'];
                                   return FractionallySizedBox(
                                       heightFactor: 0.7,
                                       widthFactor: 0.95,
                                       child: AddBottomsheet(
-                                        title: 'Modifier une voix : ',
+                                        title: 'Modifier une responsabilité : ',
                                         controller:
-                                            controller.editVoiceController,
+                                            controller.editRoleController,
                                         buttonTitle: 'Modifier',
                                         onAdd: () {
                                           controller
-                                              .updateVoice(Voice(
+                                              .updateRole(Role(
                                                   id: (doc.data() as Map)['id'],
                                                   name: controller
-                                                      .editVoiceController
+                                                      .editRoleController
                                                       .text))
                                               .then((_) {
                                             Navigator.pop(context);
@@ -85,7 +86,7 @@ class VoicesScreen extends GetView<VoicesController> {
                         IconButton(
                             onPressed: () async {
                               await controller
-                                  .deleteVoice((doc.data() as Map)['id']);
+                                  .deleteRole((doc.data() as Map)['id']);
                             },
                             icon: const Icon(Icons.delete)),
                       ],
@@ -100,10 +101,10 @@ class VoicesScreen extends GetView<VoicesController> {
 
   @override
   Widget build(BuildContext context) {
-    VoicesBinding().dependencies();
+    RolesBinding().dependencies();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Voix'),
+          title: const Text('Responsabilité'),
           backgroundColor: const Color(0xFF62D9F7),
           actions: [
             IconButton(
@@ -117,12 +118,12 @@ class VoicesScreen extends GetView<VoicesController> {
                         heightFactor: 0.7,
                         widthFactor: 0.95,
                         child: AddBottomsheet(
-                          title: 'Ajouter une voix : ',
-                          controller: controller.addVoiceController,
+                          title: 'Ajouter une responsabilité : ',
+                          controller: controller.addRoleController,
                           buttonTitle: 'Ajouter',
                           onAdd: () {
                             controller
-                                .addVoice(controller.addVoiceController.text)
+                                .addRole(controller.addRoleController.text)
                                 .then((_) {
                               Navigator.pop(context);
                             });

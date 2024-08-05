@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-Voice voiceFromJson(String str) => Voice.fromJson(json.decode(str));
+Role voiceFromJson(String str) => Role.fromJson(json.decode(str));
 
-String voiceToJson(Voice data) => json.encode(data.toJson());
+String voiceToJson(Role data) => json.encode(data.toJson());
 
-class Voice {
+class Role {
     String id;
     String name;
 
-    Voice({
+    Role({
         required this.id,
         required this.name,
     });
 
-    factory Voice.fromJson(Map<String, dynamic> json) => Voice(
+    factory Role.fromJson(Map<String, dynamic> json) => Role(
         id: json['id'],
         name: json['name'],
     );
