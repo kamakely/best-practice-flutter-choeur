@@ -1,4 +1,4 @@
-import 'package:chorale_fva/features/event/presentation/pages/event_screen.dart';
+import 'package:chorale_fva/features/events/presentation/pages/events_screen.dart';
 import 'package:chorale_fva/features/members/presentation/pages/members_screen.dart';
 import 'package:chorale_fva/features/presence/presentation/pages/presence_screen.dart';
 import 'package:chorale_fva/features/songs/presentation/pages/songs_screen.dart';
@@ -24,7 +24,7 @@ class HomeController extends GetxController {
       Get.to(() => const VoicesScreen());
     },),
     Menu(name:  'évenements', onTap: () {
-      Get.to(() => const EventScreen());
+      Get.to(() => const EventsScreen());
     },),
     Menu(name:  'Responsabilités', onTap: () {
       Get.to(() => const RolesScreen());

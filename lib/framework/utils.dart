@@ -2,8 +2,29 @@ import 'package:chorale_fva/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import '../core/constants/constants.dart';
 
 class Utils {
+
+  static DateTime? dateTimeFromString(String? date,
+      [String? format, String? local]) {
+    if (date == null || date.isEmpty) {
+      return null;
+    }
+    return DateFormat(format ?? Constants.dateFormat, local).parse(date);
+  }
+
+  static String? dateTimeToString(DateTime? date,
+      [String? format, String? local]) {
+    if (date == null) {
+      return null;
+    }
+
+    return DateFormat(format ?? Constants.dateFormat, local).format(date);
+  }
+
   static void showPopinError(String error) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(

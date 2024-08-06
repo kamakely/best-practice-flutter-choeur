@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../framework/widgets/add_voice_dialog.dart';
-import '../../data/role.dart';
+import '../../../../framework/widgets/add_bottomsheet.dart';
+import '../../data/models/role.dart';
 import '../controllers/roles_controller.dart';
 import '../controllers/voices_binding.dart';
 
