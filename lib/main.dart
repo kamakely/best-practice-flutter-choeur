@@ -1,6 +1,7 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ bool shouldUseFirebaseEmulator = false;
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   /// The line `import 'package:firebase_core/firebase_core.dart';` in the Dart code is importing the
   /// `firebase_core` package in the Flutter project. This package is used for initializing Firebase
   /// services in a Flutter application.
@@ -50,6 +52,14 @@ class MyApp extends StatelessWidget {
               name: '/home',
               page: () => const HomeScreen(),
             )
+          ],
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const <Locale>[
+            Locale('fr', 'FR'),
           ],
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),

@@ -1,26 +1,28 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
-import 'package:chorale_fva/features/voices/data/models/voice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../../../framework/utils.dart';
+import '../../data/models/event.dart';
+import '../controllers/events_controller.dart';
 import '../controllers/voices_binding.dart';
-import '../controllers/voices_controller.dart';
-import '../../../../framework/widgets/add_bottomsheet.dart';
+import '../widgets/add_event_bottomsheet.dart';
 
-class VoicesScreen extends GetView<VoicesController> {
-  const VoicesScreen({super.key});
+class EventsScreen extends GetView<EventsController> {
+  const EventsScreen({super.key});
 
   Widget _body() {
     return Obx(() {
-      bool isDataEmpty = controller.voicesFields.value == null ||
-          controller.voicesFields.value!.docs.isEmpty;
+      bool isDataEmpty = controller.eventsFields.value == null ||
+          controller.eventsFields.value!.docs.isEmpty;
 
       if (controller.isLoading.value) {
         return const Center(
           child: CircularProgressIndicator.adaptive(),
         );
-      }    
+      }
 
       if (isDataEmpty) {
         return const Center(
@@ -34,9 +36,9 @@ class VoicesScreen extends GetView<VoicesController> {
           vertical: 40.h,
         ),
         child: ListView.builder(
-            itemCount: controller.voicesFields.value!.docs.length,
+            itemCount: controller.eventsFields.value!.docs.length,
             itemBuilder: (context, index) {
-              var doc = controller.voicesFields.value!.docs[index];
+              var doc = controller.eventsFields.value!.docs[index];
               return Card(
                   child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -46,7 +48,33 @@ class VoicesScreen extends GetView<VoicesController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text((doc.data() as Map)['name']),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.event_note_rounded,
+                              size: 35.h,
+                            ),
+                            Gap(20.w),
+                            Text((doc.data() as Map)['name']),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_month_rounded,
+                              size: 35.h,
+                            ),
+                            Gap(20.w),
+                            Text(Utils.dateTimeToString(
+                                    (doc.data() as Map)['date'].toDate()) ??
+                                ''),
+                          ],
+                        ),
+                      ],
+                    ),
                     Row(
                       children: [
                         IconButton(
@@ -56,23 +84,35 @@ class VoicesScreen extends GetView<VoicesController> {
                                 backgroundColor: AppColors.backgroundColor,
                                 isScrollControlled: true,
                                 builder: (_) {
-                                  controller.editVoiceController.text =
+                                  controller.editEventController.text =
                                       (doc.data() as Map)['name'];
+                                  controller.dateEventController.text =
+                                      Utils.dateTimeToString(
+                                              (doc.data() as Map)['date']
+                                                  .toDate()) ??
+                                          '';
                                   return FractionallySizedBox(
                                       heightFactor: 0.7,
                                       widthFactor: 0.95,
-                                      child: AddBottomsheet(
-                                        title: 'Modifier une voix : ',
-                                        controller:
-                                            controller.editVoiceController,
+                                      child: AddEventBottomsheet(
+                                        title: 'Modifier une événement : ',
+                                        nameController:
+                                            controller.editEventController,
+                                        dateController:
+                                            controller.dateEventController,
                                         buttonTitle: 'Modifier',
                                         onAdd: () {
                                           controller
-                                              .updateVoice(Voice(
-                                                  id: (doc.data() as Map)['id'],
-                                                  name: controller
-                                                      .editVoiceController
-                                                      .text))
+                                              .updateEvent(Event(
+                                            id: (doc.data() as Map)['id'],
+                                            name: controller
+                                                .editEventController.text,
+                                            date: Utils.dateTimeFromString(
+                                                    controller
+                                                        .dateEventController
+                                                        .text) ??
+                                                DateTime.now(),
+                                          ))
                                               .then((_) {
                                             Navigator.pop(context);
                                           });
@@ -100,10 +140,10 @@ class VoicesScreen extends GetView<VoicesController> {
 
   @override
   Widget build(BuildContext context) {
-    VoicesBinding().dependencies();
+    EventsBinding().dependencies();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Voix'),
+          title: const Text('Evénément'),
           backgroundColor: const Color(0xFF62D9F7),
           actions: [
             IconButton(
@@ -116,14 +156,13 @@ class VoicesScreen extends GetView<VoicesController> {
                     return FractionallySizedBox(
                         heightFactor: 0.7,
                         widthFactor: 0.95,
-                        child: AddBottomsheet(
-                          title: 'Ajouter une voix : ',
-                          controller: controller.addVoiceController,
+                        child: AddEventBottomsheet(
+                          title: 'Ajouter un événement : ',
+                          nameController: controller.addEventController,
+                          dateController: controller.dateEventController,
                           buttonTitle: 'Ajouter',
                           onAdd: () {
-                            controller
-                                .addVoice(controller.addVoiceController.text)
-                                .then((_) {
+                            controller.addEvent().then((_) {
                               Navigator.pop(context);
                             });
                           },

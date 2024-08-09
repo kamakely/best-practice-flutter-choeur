@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../data/role.dart';
+import '../../data/models/role.dart';
 
 class RolesController extends GetxController {
   var rolesFields = Rxn<QuerySnapshot>();
