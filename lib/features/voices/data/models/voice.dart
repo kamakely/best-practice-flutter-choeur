@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:chorale_fva/core/models/label_provider.dart';
+
 Voice voiceFromJson(String str) => Voice.fromJson(json.decode(str));
 
 String voiceToJson(Voice data) => json.encode(data.toJson());
 
-class Voice {
+class Voice extends LabelProvider {
     String id;
     String name;
 
@@ -22,4 +24,8 @@ class Voice {
         'id': id,
         'name': name,
     };
+    
+      @override
+      String getLabel() => name;
+
 }
