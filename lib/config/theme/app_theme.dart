@@ -9,11 +9,10 @@ const errorStyle = OutlineInputBorder(
   color: AppColors.red500,
 ));
 
-final borderStyle = OutlineInputBorder(
+const borderStyle = OutlineInputBorder(
   borderSide: BorderSide(
     color: AppColors.gray300,
     style: BorderStyle.solid,
-    width: 1.w,
   ),
 );
 

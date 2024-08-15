@@ -9,9 +9,14 @@ import '../../../voices/data/models/voice.dart';
 import '../controllers/members_controller.dart';
 
 class AddMemberForm extends StatelessWidget {
-  const AddMemberForm({super.key, required this.controller});
+  const AddMemberForm({
+    super.key,
+    this.readOnly = false,
+    required this.controller,
+  });
 
   final MembersController controller;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -79,15 +84,15 @@ class AddMemberForm extends StatelessWidget {
                             children: [
                               controller.photo.value != null
                                   ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(300.r),
-                                    child: Image.file(
+                                      borderRadius:
+                                          BorderRadius.circular(300.r),
+                                      child: Image.file(
                                         controller.photo.value!,
                                         width: 200.h,
                                         height: 200.h,
                                         fit: BoxFit.cover,
-                                        
                                       ),
-                                  )
+                                    )
                                   : SizedBox(
                                       width: 200.h,
                                       height: 200.h,

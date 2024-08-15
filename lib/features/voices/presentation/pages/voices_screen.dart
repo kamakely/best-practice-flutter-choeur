@@ -1,5 +1,6 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
 import 'package:chorale_fva/features/voices/data/models/voice.dart';
+import 'package:chorale_fva/framework/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,21 +12,19 @@ import '../../../../framework/widgets/add_bottomsheet.dart';
 class VoicesScreen extends GetView<VoicesController> {
   const VoicesScreen({super.key});
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return Obx(() {
       bool isDataEmpty = controller.voicesFields.value == null ||
           controller.voicesFields.value!.docs.isEmpty;
 
-      if (controller.isLoading.value) {
+      if (controller.isFetching.value) {
         return const Center(
           child: CircularProgressIndicator.adaptive(),
         );
-      }    
+      }
 
       if (isDataEmpty) {
-        return const Center(
-          child: Text('Aucune donnée'),
-        );
+        return const NoDataScreen();
       }
 
       return Padding(
@@ -61,25 +60,45 @@ class VoicesScreen extends GetView<VoicesController> {
                                   return FractionallySizedBox(
                                       heightFactor: 0.7,
                                       widthFactor: 0.95,
-                                      child: AddBottomsheet(
-                                        title: 'Modifier une voix : ',
-                                        controller:
-                                            controller.editVoiceController,
-                                        buttonTitle: 'Modifier',
-                                        onAdd: () {
-                                          controller
-                                              .updateVoice(Voice(
-                                                  id: (doc.data() as Map)['id'],
-                                                  name: controller
-                                                      .editVoiceController
-                                                      .text))
-                                              .then((_) {
-                                            Navigator.pop(context);
-                                          });
-                                        },
+                                      child: Obx(
+                                        () => AddBottomsheet(
+                                          title:
+                                              "Modifier une section d'un choeur : ",
+                                          controller:
+                                              controller.editVoiceController,
+                                          buttonTitle: 'Modifier',
+                                          prefixIcon: Icon(
+                                            Icons.music_note_outlined,
+                                            size: 50.h,
+                                            color: controller.editVoiceErrorText
+                                                        .value !=
+                                                    null
+                                                ? AppColors.red500
+                                                : null,
+                                          ),
+                                          isLoading: controller.isLoading.value,
+                                          errorText: controller
+                                              .editVoiceErrorText.value,
+                                          onAdd: () {
+                                            controller
+                                                .updateVoice(Voice(
+                                                    id: (doc.data()
+                                                        as Map)['id'],
+                                                    name: controller
+                                                        .editVoiceController
+                                                        .text))
+                                                .then((isOk) {
+                                              if (isOk) {
+                                                Navigator.pop(context);
+                                              }
+                                            });
+                                          },
+                                        ),
                                       ));
                                 },
-                              );
+                              ).then((_) {
+                                controller.initData();
+                              });
                             },
                             icon: const Icon(Icons.edit)),
                         IconButton(
@@ -116,20 +135,35 @@ class VoicesScreen extends GetView<VoicesController> {
                     return FractionallySizedBox(
                         heightFactor: 0.7,
                         widthFactor: 0.95,
-                        child: AddBottomsheet(
-                          title: 'Ajouter une voix : ',
-                          controller: controller.addVoiceController,
-                          buttonTitle: 'Ajouter',
-                          onAdd: () {
-                            controller
-                                .addVoice(controller.addVoiceController.text)
-                                .then((_) {
-                              Navigator.pop(context);
-                            });
-                          },
+                        child: Obx(
+                          () => AddBottomsheet(
+                            title: "Ajouter une section d'un choeur : ",
+                            controller: controller.addVoiceController,
+                            buttonTitle: 'Ajouter',
+                            prefixIcon: Icon(
+                              Icons.music_note_outlined,
+                              size: 50.h,
+                              color: controller.addVoiceErrorText.value != null
+                                  ? AppColors.red500
+                                  : null,
+                            ),
+                            isLoading: controller.isLoading.value,
+                            errorText: controller.addVoiceErrorText.value,
+                            onAdd: () {
+                              controller
+                                  .addVoice(controller.addVoiceController.text)
+                                  .then((isOk) {
+                                if (isOk) {
+                                  Navigator.pop(context);
+                                }
+                              });
+                            },
+                          ),
                         ));
                   },
-                );
+                ).then((_) {
+                  controller.initData();
+                });
               },
               icon: const Icon(
                 Icons.add,
@@ -137,6 +171,6 @@ class VoicesScreen extends GetView<VoicesController> {
             )
           ],
         ),
-        body: _body());
+        body: _body(context));
   }
 }

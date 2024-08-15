@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../framework/widgets/add_bottomsheet.dart';
+import '../../../../framework/widgets/no_data.dart';
 import '../../data/models/role.dart';
 import '../controllers/roles_controller.dart';
 import '../controllers/voices_binding.dart';
@@ -24,9 +25,7 @@ class RolesScreen extends GetView<RolesController> {
       }    
 
       if (isDataEmpty) {
-        return const Center(
-          child: Text('Aucune donnée'),
-        );
+        return const NoDataScreen();
       }
 
       return Padding(

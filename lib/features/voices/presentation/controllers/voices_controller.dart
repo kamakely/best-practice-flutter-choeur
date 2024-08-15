@@ -7,16 +7,20 @@ import 'package:uuid/uuid.dart';
 
 class VoicesController extends GetxController {
   var voicesFields = Rxn<QuerySnapshot>();
+  var isFetching = false.obs;
   var isLoading = false.obs;
-  
+
   final addVoiceController = TextEditingController();
   final editVoiceController = TextEditingController();
 
+  var addVoiceErrorText = Rxn<String>();
+  var editVoiceErrorText = Rxn<String>();
+
   @override
   void onInit() async {
-    isLoading.value = true;
+    isFetching.value = true;
     await getVoices();
-    isLoading.value = false;
+    isFetching.value = false;
     super.onInit();
   }
 
@@ -27,32 +31,59 @@ class VoicesController extends GetxController {
     LoggerUtils.info(voicesFields.toString());
   }
 
-  Future<void> addVoice(String name) async {
-    var uuid = const Uuid();
-    final id = uuid.v4();
-    final FirebaseFirestore db = FirebaseFirestore.instance;
-    final CollectionReference voices = db.collection('voices');
-    await voices.doc(id).set(Voice(
-          id: id,
-          name: name,
-        ).toJson());
-    addVoiceController.clear();    
-    await getVoices();    
+  Future<bool> addVoice(String name,) async {
+    addVoiceErrorText.value = null;
+    if (addVoiceController.text.isNotEmpty) {
+      isLoading.value = true;
+      var uuid = const Uuid();
+      final id = uuid.v4();
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+      final CollectionReference voices = db.collection('voices');
+      await voices.doc(id).set(Voice(
+            id: id,
+            name: name,
+          ).toJson());
+      addVoiceController.clear();
+      await getVoices();
+      isLoading.value = false;
+      return true;
+    } else {
+      addVoiceErrorText.value = 'Veuillez remplir ce champs';
+    }
+    return false;
   }
 
-  Future<void> updateVoice(Voice voice) async {
-    final FirebaseFirestore db = FirebaseFirestore.instance;
-    final CollectionReference voices = db.collection('voices');
-    await voices.doc(voice.id).set(voice.toJson());
-    editVoiceController.clear();
-    await getVoices();  
+  Future<bool> updateVoice(Voice voice) async {
+    editVoiceErrorText.value = null;
+    if (editVoiceController.text.isNotEmpty) {
+      isLoading.value = true;
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+      final CollectionReference voices = db.collection('voices');
+      await voices.doc(voice.id).set(voice.toJson());
+      editVoiceController.clear();
+      await getVoices();
+      isLoading.value = false;
+      return true;
+    } else {
+      editVoiceErrorText.value = 'Veuillez remplir ce champs';
+    }
+    return false;
   }
 
   Future<void> deleteVoice(String id) async {
+    isLoading.value = true;
     final FirebaseFirestore db = FirebaseFirestore.instance;
     final CollectionReference voices = db.collection('voices');
     await voices.doc(id).delete();
-    await getVoices();  
+    await getVoices();
+    isLoading.value = false;
   }
 
+  void initData() {
+    addVoiceErrorText.value = null;
+    addVoiceController.clear();
+
+    editVoiceErrorText.value = null;
+    editVoiceController.clear();
+  }
 }

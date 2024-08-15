@@ -7,7 +7,7 @@ class PresenceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Azela'),
+          title: const Text('Présence'),
           backgroundColor: const Color(0xFF62D9F7),
           
         ),
