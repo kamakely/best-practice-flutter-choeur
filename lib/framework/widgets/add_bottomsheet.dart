@@ -9,12 +9,18 @@ class AddBottomsheet extends StatelessWidget {
     required this.controller,
     required this.buttonTitle,
     this.onAdd,
+    this.prefixIcon,
+    this.isLoading = false,
+    this.errorText,
   });
 
   final String title;
   final TextEditingController controller;
   final Function()? onAdd;
   final String buttonTitle;
+  final Icon? prefixIcon;
+  final bool isLoading;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +31,42 @@ class AddBottomsheet extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(title),
-          Gap(20.h),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Gap(40.h),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: TextField( 
+              child: TextField(
                 controller: controller,
+                decoration: InputDecoration(
+                  prefixIcon: prefixIcon,
+                  errorText: errorText,
+                ),
               )),
-          Gap(20.h),
-          SizedBox(
-            width: 400.w,
+          Gap(40.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: ElevatedButton(
               onPressed: onAdd,
-              child: Text(buttonTitle),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(buttonTitle),
+                  if (isLoading) Gap(20.w),
+                  if (isLoading)
+                    SizedBox(
+                      width: 30.h,
+                      height: 30.h,
+                      child: CircularProgressIndicator.adaptive(
+                        strokeWidth: 1.h,
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                ],
+              ),
             ),
           ),
         ],

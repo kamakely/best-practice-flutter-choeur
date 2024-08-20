@@ -13,7 +13,7 @@ class HomeScreen extends GetView<HomeController> {
     HomeBinding().dependencies();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Azela'),
+          title: Text('Accueil', style: Theme.of(context).textTheme.titleMedium,),
           backgroundColor: const Color(0xFF62D9F7),
          
         ),

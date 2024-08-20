@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../framework/widgets/add_bottomsheet.dart';
+import '../../../../framework/widgets/no_data.dart';
 import '../../data/models/role.dart';
 import '../controllers/roles_controller.dart';
 import '../controllers/voices_binding.dart';
-
 
 class RolesScreen extends GetView<RolesController> {
   const RolesScreen({super.key});
@@ -17,16 +17,14 @@ class RolesScreen extends GetView<RolesController> {
       bool isDataEmpty = controller.rolesFields.value == null ||
           controller.rolesFields.value!.docs.isEmpty;
 
-      if (controller.isLoading.value) {
+      if (controller.isFetching.value) {
         return const Center(
           child: CircularProgressIndicator.adaptive(),
         );
-      }    
+      }
 
       if (isDataEmpty) {
-        return const Center(
-          child: Text('Aucune donnée'),
-        );
+        return const NoDataScreen();
       }
 
       return Padding(
@@ -62,23 +60,42 @@ class RolesScreen extends GetView<RolesController> {
                                   return FractionallySizedBox(
                                       heightFactor: 0.7,
                                       widthFactor: 0.95,
-                                      child: AddBottomsheet(
-                                        title: 'Modifier une responsabilité : ',
-                                        controller:
-                                            controller.editRoleController,
-                                        buttonTitle: 'Modifier',
-                                        onAdd: () {
-                                          controller
-                                              .updateRole(Role(
-                                                  id: (doc.data() as Map)['id'],
-                                                  name: controller
-                                                      .editRoleController
-                                                      .text))
-                                              .then((_) {
-                                            Navigator.pop(context);
-                                          });
-                                        },
-                                      ));
+                                      child: Obx(() => AddBottomsheet(
+                                            title:
+                                                'Modifier une responsabilité : ',
+                                            controller:
+                                                controller.editRoleController,
+                                            buttonTitle: 'Modifier',
+                                            prefixIcon: Icon(
+                                              Icons
+                                                  .admin_panel_settings_rounded,
+                                              size: 50.h,
+                                              color: controller
+                                                          .editRoleErrorText
+                                                          .value !=
+                                                      null
+                                                  ? AppColors.red500
+                                                  : null,
+                                            ),
+                                            isLoading:
+                                                controller.isLoading.value,
+                                            errorText: controller
+                                                .editRoleErrorText.value,
+                                            onAdd: () {
+                                              controller
+                                                  .updateRole(Role(
+                                                      id: (doc.data()
+                                                          as Map)['id'],
+                                                      name: controller
+                                                          .editRoleController
+                                                          .text))
+                                                  .then((isOk) {
+                                                if (isOk) {
+                                                  Navigator.pop(context);
+                                                }
+                                              });
+                                            },
+                                          )));
                                 },
                               );
                             },
@@ -104,7 +121,10 @@ class RolesScreen extends GetView<RolesController> {
     RolesBinding().dependencies();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Responsabilité'),
+          title: Text(
+            'Responsabilité',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           backgroundColor: const Color(0xFF62D9F7),
           actions: [
             IconButton(
@@ -117,18 +137,29 @@ class RolesScreen extends GetView<RolesController> {
                     return FractionallySizedBox(
                         heightFactor: 0.7,
                         widthFactor: 0.95,
-                        child: AddBottomsheet(
-                          title: 'Ajouter une responsabilité : ',
-                          controller: controller.addRoleController,
-                          buttonTitle: 'Ajouter',
-                          onAdd: () {
-                            controller
-                                .addRole(controller.addRoleController.text)
-                                .then((_) {
-                              Navigator.pop(context);
-                            });
-                          },
-                        ));
+                        child: Obx(() => AddBottomsheet(
+                              title: 'Ajouter une responsabilité : ',
+                              controller: controller.addRoleController,
+                              buttonTitle: 'Ajouter',
+                              prefixIcon: Icon(
+                                Icons.admin_panel_settings_rounded,
+                                size: 50.h,
+                                color: controller.addRoleErrorText.value != null
+                                    ? AppColors.red500
+                                    : null,
+                              ),
+                              isLoading: controller.isLoading.value,
+                              errorText: controller.addRoleErrorText.value,
+                              onAdd: () {
+                                controller
+                                    .addRole(controller.addRoleController.text)
+                                    .then((isOk) {
+                                  if (isOk) {
+                                    Navigator.pop(context);
+                                  }
+                                });
+                              },
+                            )));
                   },
                 );
               },

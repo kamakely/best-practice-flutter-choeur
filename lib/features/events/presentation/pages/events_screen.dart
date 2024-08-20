@@ -1,4 +1,5 @@
 import 'package:chorale_fva/core/constants/app_colors.dart';
+import 'package:chorale_fva/framework/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -25,9 +26,7 @@ class EventsScreen extends GetView<EventsController> {
       }
 
       if (isDataEmpty) {
-        return const Center(
-          child: Text('Aucune donnée'),
-        );
+        return const NoDataScreen();
       }
 
       return Padding(

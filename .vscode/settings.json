@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "D:/Utilisateurs/Moise/Documents/projets/projets/learn/chorale/chorale_fva/linux"
+    "cmake.sourceDirectory": "D:/Utilisateurs/Moise/Documents/projets/projets/learn/chorale/chorale_fva/linux",
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
+    ]
 }

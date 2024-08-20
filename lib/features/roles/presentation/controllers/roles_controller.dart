@@ -9,16 +9,20 @@ import '../../data/models/role.dart';
 
 class RolesController extends GetxController {
   var rolesFields = Rxn<QuerySnapshot>();
+  var isFetching = false.obs;
   var isLoading = false.obs;
-  
+
   final addRoleController = TextEditingController();
   final editRoleController = TextEditingController();
 
+  var addRoleErrorText = Rxn<String>();
+  var editRoleErrorText = Rxn<String>();
+
   @override
   void onInit() async {
-    isLoading.value = true;
+    isFetching.value = true;
     await getRoles();
-    isLoading.value = false;
+    isFetching.value = false;
     super.onInit();
   }
 
@@ -29,32 +33,59 @@ class RolesController extends GetxController {
     LoggerUtils.info(rolesFields.toString());
   }
 
-  Future<void> addRole(String name) async {
-    var uuid = const Uuid();
-    final id = uuid.v4();
-    final FirebaseFirestore db = FirebaseFirestore.instance;
-    final CollectionReference roles = db.collection('roles');
-    await roles.doc(id).set(Voice(
-          id: id,
-          name: name,
-        ).toJson());
-    addRoleController.clear();    
-    await getRoles();    
+  Future<bool> addRole(String name) async {
+    addRoleErrorText.value = null;
+    if (addRoleController.text.isNotEmpty) {
+      isLoading.value = true;
+      var uuid = const Uuid();
+      final id = uuid.v4();
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+      final CollectionReference roles = db.collection('roles');
+      await roles.doc(id).set(Voice(
+            id: id,
+            name: name,
+          ).toJson());
+      addRoleController.clear();
+      await getRoles();
+      isLoading.value = false;
+      return true;
+    } else {
+      addRoleErrorText.value = 'Veuillez remplir ce champs';
+    }
+    return false;
   }
 
-  Future<void> updateRole(Role role) async {
-    final FirebaseFirestore db = FirebaseFirestore.instance;
-    final CollectionReference roles = db.collection('roles');
-    await roles.doc(role.id).set(role.toJson());
-    editRoleController.clear();
-    await getRoles();  
+  Future<bool> updateRole(Role role) async {
+    editRoleErrorText.value = null;
+    if (editRoleController.text.isNotEmpty) {
+      isLoading.value = true;
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+      final CollectionReference roles = db.collection('roles');
+      await roles.doc(role.id).set(role.toJson());
+      editRoleController.clear();
+      await getRoles();
+      isLoading.value = false;
+      return true;
+    } else {
+      editRoleErrorText.value = 'Veuillez remplir ce champs';
+    }
+    return false;
   }
 
   Future<void> deleteRole(String id) async {
+    isLoading.value = true;
     final FirebaseFirestore db = FirebaseFirestore.instance;
     final CollectionReference roles = db.collection('roles');
     await roles.doc(id).delete();
-    await getRoles();  
+    await getRoles();
+    isLoading.value = false;
   }
 
+  void initData() {
+    addRoleErrorText.value = null;
+    addRoleController.clear();
+
+    editRoleErrorText.value = null;
+    editRoleController.clear();
+  }
 }
