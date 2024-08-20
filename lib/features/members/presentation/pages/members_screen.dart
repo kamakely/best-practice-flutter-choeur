@@ -93,7 +93,7 @@ class MembersScreen extends GetView<MembersController> {
         appBar: AppBar(
           title: Text(
             'Membre',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           backgroundColor: const Color(0xFF62D9F7),
           actions: [

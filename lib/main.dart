@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'config/theme/app_theme.dart';
 import 'features/home/presentation/pages/home_screen.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
             inputDecorationTheme: inputDecorationThemes,
+            textTheme: GoogleFonts.robotoTextTheme(),
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(

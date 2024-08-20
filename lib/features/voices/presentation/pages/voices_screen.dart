@@ -49,8 +49,8 @@ class VoicesScreen extends GetView<VoicesController> {
                     Row(
                       children: [
                         IconButton(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
+                            onPressed: () async {
+                              await showModalBottomSheet<void>(
                                 context: context,
                                 backgroundColor: AppColors.backgroundColor,
                                 isScrollControlled: true,
@@ -96,9 +96,8 @@ class VoicesScreen extends GetView<VoicesController> {
                                         ),
                                       ));
                                 },
-                              ).then((_) {
-                                controller.initData();
-                              });
+                              );
+                              controller.initData();
                             },
                             icon: const Icon(Icons.edit)),
                         IconButton(
@@ -122,12 +121,15 @@ class VoicesScreen extends GetView<VoicesController> {
     VoicesBinding().dependencies();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Voix'),
+          title: Text(
+            'Voix',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           backgroundColor: const Color(0xFF62D9F7),
           actions: [
             IconButton(
               onPressed: () async {
-                showModalBottomSheet<void>(
+                await showModalBottomSheet<void>(
                   context: context,
                   backgroundColor: AppColors.backgroundColor,
                   isScrollControlled: true,
@@ -161,9 +163,8 @@ class VoicesScreen extends GetView<VoicesController> {
                           ),
                         ));
                   },
-                ).then((_) {
-                  controller.initData();
-                });
+                );
+                controller.initData();
               },
               icon: const Icon(
                 Icons.add,
